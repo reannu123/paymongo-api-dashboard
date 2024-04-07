@@ -18,21 +18,26 @@ interface PaymongoStore {
 const usePaymongo = create<PaymongoStore>((set, get) => ({
   secretKey: "",
   sendEnableWebhook: async (id: string) => {
-    const { secretKey } = get();
+    const { secretKey, sendGetWebhooks } = get();
     await enableWebhook(id, secretKey);
+    sendGetWebhooks();
   },
 
   sendDisableWebhook: async (id: string) => {
-    const { secretKey } = get();
+    const { secretKey, sendGetWebhooks } = get();
     await disableWebhook(id, secretKey);
+    sendGetWebhooks();
   },
 
   sendGetWebhooks: async () => {
     const { secretKey } = get();
     const webhooks = await getWebhooks(secretKey);
+    if (!webhooks) return;
     const data: WebhookData[] = webhooks.data;
     set({ webhooks: data });
   },
+
+  sendCreateWebhook: async (url: string, events: string[]) => {},
 
   setSecretKey: (secretKey: string) => set({ secretKey }),
 

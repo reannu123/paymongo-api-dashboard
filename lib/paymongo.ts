@@ -282,12 +282,15 @@ export const getWebhooks = async (secretKey: string, webhookId?: string) => {
   return response;
 };
 
-export const createWebhook = async (url: string) => {
+export const createWebhook = async (
+  url: string,
+  events: string[] = ["checkout_session.payment.paid"]
+) => {
   const data = {
     data: {
       attributes: {
         url,
-        events: ["checkout_session.payment.paid"],
+        events,
       },
     },
   };

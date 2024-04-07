@@ -43,7 +43,6 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onDisable = async (id: string) => {
     try {
       paymongo.sendDisableWebhook(id);
-      paymongo.sendGetWebhooks();
       toast.success("Webhook disabled!");
     } catch (error) {
       toast.error("Error occured while disabling webhook!");
@@ -53,7 +52,6 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onEnable = async (id: string) => {
     try {
       paymongo.sendEnableWebhook(id);
-      paymongo.sendGetWebhooks();
       toast.success("Webhook enabled!");
     } catch (error) {
       toast.error("Error occured while enabling webhook!");
