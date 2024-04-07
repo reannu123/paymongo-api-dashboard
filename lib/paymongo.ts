@@ -98,7 +98,7 @@ interface PaymentIntent {
   };
 }
 
-interface CheckoutSession {
+export interface CheckoutSession {
   id: string;
   type: string;
   attributes: {
@@ -130,9 +130,9 @@ interface CheckoutSession {
   };
 }
 
-export const sendPaymongo = async (options: any) => {
+export const sendPaymongo = async (secretKey: string) => {
   const response = await axios
-    .request(options)
+    .request(createOptions(secretKey))
     .then(function (response: any) {
       console.log(response.data);
       return response.data.data;
@@ -143,10 +143,11 @@ export const sendPaymongo = async (options: any) => {
   return response;
 };
 
-export const createOptions = (requestOptions: RequestOptions) => {
-  const encodedCredentials = Buffer.from(
-    `${process.env.PAYMONGO_SECRET_KEY}:`
-  ).toString("base64");
+export const createOptions = (
+  secretKey: string,
+  requestOptions?: RequestOptions
+) => {
+  const encodedCredentials = Buffer.from(`${secretKey}:`).toString("base64");
   const defaultOptions = {
     method: "POST",
     url: "https://api.paymongo.com/v1/checkout_sessions",
@@ -191,6 +192,8 @@ export const createOptions = (requestOptions: RequestOptions) => {
       },
     },
   };
+
+  if (!requestOptions) return defaultOptions;
 
   return {
     ...defaultOptions,
@@ -279,6 +282,7 @@ export const getWebhooks = async (secretKey: string, webhookId?: string) => {
     secretKey: secretKey,
     data: "",
   });
+  console.log(response);
   return response;
 };
 

@@ -11,10 +11,13 @@ import Link from "next/link";
 export default function HomePage() {
   const paymongo = usePaymongo();
   const secretKey = usePaymongo((state) => state.secretKey);
+  const checkoutURL = usePaymongo(
+    (state) => state.checkoutSession?.attributes?.checkout_url || ""
+  );
 
   return (
     <div className="flex items-center justify-center pt-6">
-      <div className="space-y-8">
+      <div className="space-y-8 w-3/4">
         <Heading
           title="Paymongo Developer Tool"
           description="Tool for testing Paymongo Keys for payment gateway integration."
@@ -30,7 +33,7 @@ export default function HomePage() {
         </div>
 
         <Tabs
-          defaultValue="account"
+          defaultValue="webhooks"
           className="space-y-8"
         >
           <div className="flex flex-col items-center justify-center w-full">
@@ -80,13 +83,31 @@ export default function HomePage() {
             />
           </TabsContent>
           <TabsContent value="checkout-session">
-            <Button
-              type="submit"
-              variant={"default"}
-              onClick={() => paymongo.sendGetWebhooks()}
-            >
-              Test Checkout Session
-            </Button>
+            <div>
+              <Button
+                type="submit"
+                variant={"default"}
+                onClick={() => paymongo.sendCreateCheckoutSession()}
+              >
+                Test Checkout Session
+              </Button>
+              <div>
+                {checkoutURL.length > 0 && (
+                  <Button
+                    variant={"link"}
+                    asChild
+                  >
+                    <Link
+                      href={checkoutURL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {checkoutURL}
+                    </Link>
+                  </Button>
+                )}
+              </div>
+            </div>
           </TabsContent>
         </Tabs>
 
