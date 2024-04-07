@@ -10,40 +10,53 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
+import {
+  Check,
+  Copy,
+  Edit,
+  MoreHorizontal,
+  Pause,
+  Play,
+  Trash,
+} from "lucide-react";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
-import axios from "axios";
-// import { AlertModal } from "@/components/modals/alert-modal";
 import { WebhookData } from "@/lib/paymongo";
-
+import usePaymongo from "@/hooks/use-paymongo";
 interface CellActionProps {
   data: WebhookData;
 }
 const CellAction: React.FC<CellActionProps> = ({ data }) => {
-  const router = useRouter();
-  const params = useParams();
-
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  const onCopy = () => {
+  const paymongo = usePaymongo();
+  const onCopyUrl = () => {
     if (data.attributes.url === undefined) return;
     navigator.clipboard.writeText(data.attributes.url);
-    toast.success("Copied to clipboard!");
+    toast.success("Copied Webhook URL to clipboard!");
   };
 
-  const onDelete = async () => {
+  const onCopyId = () => {
+    if (data.id === undefined) return;
+    navigator.clipboard.writeText(data.id);
+    toast.success("Copied Webhook ID to clipboard!");
+  };
+
+  const onDisable = async (id: string) => {
     try {
-      setLoading(true);
-      await axios.delete(`/api/${params.storeId}/billboards/${data.id}`);
-      router.refresh();
-      toast.success("Billboard deleted!");
+      paymongo.sendDisableWebhook(id);
+      paymongo.sendGetWebhooks();
+      toast.success("Webhook disabled!");
     } catch (error) {
-      toast.error("Make sure to remove all categories using this billboard.");
-    } finally {
-      setLoading(false);
-      setOpen(false);
+      toast.error("Error occured while disabling webhook!");
+    }
+  };
+
+  const onEnable = async (id: string) => {
+    try {
+      paymongo.sendEnableWebhook(id);
+      paymongo.sendGetWebhooks();
+      toast.success("Webhook enabled!");
+    } catch (error) {
+      toast.error("Error occured while enabling webhook!");
     }
   };
   return (
@@ -63,21 +76,21 @@ const CellAction: React.FC<CellActionProps> = ({ data }) => {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={onCopy}>
+          <DropdownMenuItem onClick={onCopyUrl}>
             <Copy className="mr-2 h-4 w-4" />
             Copy URL
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() =>
-              router.push(`/${params.storeId}/billboards/${data.id}`)
-            }
-          >
-            <Edit className="mr-2 h-4 w-4" />
-            Update
+          <DropdownMenuItem onClick={onCopyId}>
+            <Copy className="mr-2 h-4 w-4" />
+            Copy ID
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Trash className="mr-2 h-4 w-4" />
-            Delete
+          <DropdownMenuItem onClick={() => onEnable(data.id)}>
+            <Play className="mr-2 h-4 w-4" />
+            Enable
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => onDisable(data.id)}>
+            <Pause className="mr-2 h-4 w-4" />
+            Disable
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

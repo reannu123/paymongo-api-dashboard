@@ -4,6 +4,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { WebhookData } from "@/lib/paymongo";
 import CellAction from "./cell-action";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ArrowUpDown } from "lucide-react";
 
 interface WebhookData1 {
   id: string;
@@ -33,7 +35,17 @@ export const columns: ColumnDef<WebhookData>[] = [
   },
   {
     accessorKey: "attributes.status",
-    header: "Status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Status
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) =>
       row.original.attributes.status == "enabled" ? (
         <Badge variant="default">Enabled</Badge>

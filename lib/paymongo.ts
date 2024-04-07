@@ -275,7 +275,11 @@ const makeRequest = async (
 
 export const getWebhooks = async (secretKey: string, webhookId?: string) => {
   const url = `webhooks${webhookId ? `/${webhookId}` : ""}`;
-  return await makeRequest("GET", url, { secretKey: secretKey, data: "" });
+  const response = await makeRequest("GET", url, {
+    secretKey: secretKey,
+    data: "",
+  });
+  return response;
 };
 
 export const createWebhook = async (url: string) => {
