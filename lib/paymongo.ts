@@ -214,13 +214,17 @@ export const createOptions = (requestOptions: RequestOptions) => {
   };
 };
 
-interface WebhookData {
+export interface WebhookData {
   id: string;
   type: string;
   attributes: {
     type: string;
     livemode: boolean;
-    data: CheckoutSession;
+    data?: CheckoutSession;
+    secret_key: string;
+    status?: string;
+    url?: string;
+    events?: string[];
     previous_data: any;
     created_at: number;
     updated_at: number;
@@ -237,21 +241,28 @@ export const extractWebhookData = async (
 
 // Webhook management
 
+interface Options {
+  secretKey?: string;
+  data?: any;
+}
+
 const makeRequest = async (
   method: "GET" | "POST" | "PUT",
   url: string,
-  data?: any
+  optional?: Options
 ) => {
+  const secretKey: any =
+    optional?.secretKey !== ""
+      ? optional?.secretKey
+      : process.env.PAYMONGO_SECRET_KEY;
   const options = {
     method,
     url: `https://api.paymongo.com/v1/${url}`,
     headers: {
       accept: "application/json",
-      authorization: `Basic ${Buffer.from(
-        `${process.env.PAYMONGO_SECRET_KEY}:`
-      ).toString("base64")}`,
+      authorization: `Basic ${Buffer.from(`${secretKey}:`).toString("base64")}`,
     },
-    data,
+    data: optional?.data,
   };
 
   try {
@@ -262,9 +273,9 @@ const makeRequest = async (
   }
 };
 
-export const getWebhooks = async (webhookId?: string) => {
+export const getWebhooks = async (secretKey: string, webhookId?: string) => {
   const url = `webhooks${webhookId ? `/${webhookId}` : ""}`;
-  return await makeRequest("GET", url);
+  return await makeRequest("GET", url, { secretKey: secretKey, data: "" });
 };
 
 export const createWebhook = async (url: string) => {
@@ -279,7 +290,11 @@ export const createWebhook = async (url: string) => {
   return await makeRequest("POST", "webhooks", data);
 };
 
-export const updateWebhook = async (webhookId: string, url: string) => {
+export const updateWebhook = async (
+  webhookId: string,
+  url: string,
+  secretKey: string
+) => {
   const data = {
     data: {
       attributes: {
@@ -288,13 +303,20 @@ export const updateWebhook = async (webhookId: string, url: string) => {
       },
     },
   };
-  return await makeRequest("PUT", `webhooks/${webhookId}`, data);
+  return await makeRequest("PUT", `webhooks/${webhookId}`, {
+    secretKey: secretKey,
+    data: data,
+  });
 };
 
-export const enableWebhook = async (webhookId: string) => {
-  return await makeRequest("POST", `webhooks/${webhookId}/enable`);
+export const enableWebhook = async (webhookId: string, secretKey: string) => {
+  return await makeRequest("POST", `webhooks/${webhookId}/enable`, {
+    secretKey: secretKey,
+  });
 };
 
-export const disableWebhook = async (webhookId: string) => {
-  return await makeRequest("POST", `webhooks/${webhookId}/disable`);
+export const disableWebhook = async (webhookId: string, secretKey: string) => {
+  return await makeRequest("POST", `webhooks/${webhookId}/disable`, {
+    secretKey: secretKey,
+  });
 };
