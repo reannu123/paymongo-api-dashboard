@@ -23,8 +23,9 @@ secrets, adding multi-user auth, or expanding every PayMongo endpoint.
 
 ## Definition Of Done
 
-- [ ] Another developer can install dependencies and run the Next.js app.
-- [ ] `npm run lint` and `npm run build` pass.
+- [x] Another developer can install dependencies and run the Next.js app.
+- [ ] `npm run lint` passes.
+- [x] `npm run build` passes.
 - [ ] The documented secret-key workflow is clear and does not require
       committing credentials.
 - [ ] The main workflow has been smoke-tested with PayMongo test credentials:
@@ -38,7 +39,7 @@ secrets, adding multi-user auth, or expanding every PayMongo endpoint.
 
 ## Now
 
-- [ ] Run `npm run lint` and `npm run build` to establish the current baseline.
+- [ ] Run `npm run lint` to finish the local verification baseline.
 - [ ] Replace the starter README with project-specific PayMongo setup and
       verification instructions.
 - [ ] Create `.env.example` or equivalent safe configuration notes for local
@@ -73,3 +74,6 @@ secrets, adding multi-user auth, or expanding every PayMongo endpoint.
 - [x] Inspected repository on 2026-06-19: Next.js 14 app exists, README is
       still the default starter, current UI accepts a secret key, lists
       webhooks, can enable/disable webhooks, and can create a checkout session.
+- [x] Verified by user confirmation on 2026-06-19: the app is runnable,
+      `npm run build` works, and the current product is a barebones API
+      testing app.
