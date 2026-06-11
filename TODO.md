@@ -8,7 +8,7 @@ Last updated: 2026-06-19
 - Path: `/home/reannu123/Projects/Scratch/paymongo-api-dashboard`
 - Status: active
 - Stage: revival
-- Branch: `main`
+- Branch: `revive/project-setup`
 - Portfolio role: API testing dashboard and internal payment-operations tool
 
 ## Current Milestone
