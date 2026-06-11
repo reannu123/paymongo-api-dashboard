@@ -1,0 +1,12 @@
+name: paymongo-api-dashboard-prod
+
+services:
+  app:
+    image: paymongo-api-dashboard:production
+    build:
+      context: .
+      target: production
+    init: true
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    restart: unless-stopped

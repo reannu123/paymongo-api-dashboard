@@ -1,11 +1,11 @@
 # PayMongo API Dashboard TODO
 
-Last updated: 2026-06-19
+Last updated: 2026-06-20
 
 ## Project
 
 - Name: PayMongo API Dashboard
-- Path: `/home/reannu123/Projects/Scratch/paymongo-api-dashboard`
+- Path: `/home/reannu123/Projects/portfolio/paymongo-api-dashboard`
 - Status: active
 - Stage: revival
 - Branch: `revive/project-setup`
@@ -24,34 +24,26 @@ secrets, adding multi-user auth, or expanding every PayMongo endpoint.
 ## Definition Of Done
 
 - [x] Another developer can install dependencies and run the Next.js app.
-- [ ] `npm run lint` passes.
+- [x] `npm run lint` passes.
 - [x] `npm run build` passes.
-- [ ] The documented secret-key workflow is clear and does not require
+- [x] The documented secret-key workflow is clear and does not require
       committing credentials.
-- [ ] The main workflow has been smoke-tested with PayMongo test credentials:
+- [x] The main workflow has been smoke-tested with PayMongo test credentials:
       enter an API key, fetch webhooks, enable or disable a webhook when safe,
       and create a test checkout session.
-- [ ] The starter Next.js README is replaced with project-specific setup,
+- [x] The starter Next.js README is replaced with project-specific setup,
       purpose, stack, limitations, and verification instructions.
-- [ ] Docker setup is either verified and documented or explicitly deferred
-      with a reason.
+- [x] Docker development and production-like workflows are verified and
+      documented.
 - [ ] The revived state is merged or pushed through a clear GitHub trail.
 
 ## Now
 
-- [ ] Run `npm run lint` to finish the local verification baseline.
-- [ ] Replace the starter README with project-specific PayMongo setup and
-      verification instructions.
-- [ ] Create `.env.example` or equivalent safe configuration notes for local
-      ports and test-only API-key usage.
+- [ ] Push or merge the revived state through a clear GitHub trail.
 
 ## Next
 
-- [ ] Smoke-test the existing webhook list and checkout-session workflows with
-      a PayMongo test secret key.
-- [ ] Fix only issues that block the revival definition of done.
-- [ ] Review the Dockerfile and Compose setup, then decide whether Docker is
-      useful for this small tool.
+- No additional work before the revival milestone is complete.
 
 ## Later
 
@@ -64,8 +56,7 @@ secrets, adding multi-user auth, or expanding every PayMongo endpoint.
 
 ## Blocked
 
-- No confirmed blocker. A PayMongo test secret key is needed for authenticated
-  API smoke tests, but lint/build/documentation can proceed without it.
+- No confirmed blocker.
 
 ## Done
 
@@ -77,3 +68,25 @@ secrets, adding multi-user auth, or expanding every PayMongo endpoint.
 - [x] Verified by user confirmation on 2026-06-19: the app is runnable,
       `npm run build` works, and the current product is a barebones API
       testing app.
+- [x] Verified by user confirmation on 2026-06-19: `npm run lint` succeeds
+      with no warnings or errors.
+- [x] Replaced the starter Next.js README on 2026-06-19 with project-specific
+      purpose, stack, setup, run, lint, build, credential-safety,
+      verification, limitations, and useful-files sections.
+- [x] Verified by user confirmation on 2026-06-19: the webhook workflow works
+      with a PayMongo test secret key.
+- [x] Fixed the checkout-session CORS issue on 2026-06-19 by moving the
+      PayMongo checkout-session POST behind `/api/checkout-sessions`.
+- [x] Verified on 2026-06-19 after the checkout-session route change:
+      `npm run lint` passes and `npm run build` completes successfully.
+- [x] Verified by user confirmation on 2026-06-19: checkout-session creation
+      works after the local API-route CORS fix.
+- [x] Replaced the incomplete Docker setup on 2026-06-20 with a multi-stage
+      Next.js Dockerfile, development Compose workflow, and production-like
+      Compose workflow modeled on Better Ecommerce Admin.
+- [x] Added an optional `.env.example` on 2026-06-20 for Docker Compose port
+      configuration only; PayMongo test keys remain per-session UI input and
+      are not Docker environment configuration.
+- [x] Verified on 2026-06-20: `docker compose config --quiet` and
+      `docker compose -f compose.prod.yaml config --quiet` pass; both stacks
+      build successfully and serve `http://localhost:3000`.
