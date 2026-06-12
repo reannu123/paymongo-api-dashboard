@@ -6,9 +6,9 @@ Last updated: 2026-06-20
 
 - Name: PayMongo API Dashboard
 - Path: `/home/reannu123/Projects/portfolio/paymongo-api-dashboard`
-- Status: active
+- Status: complete
 - Stage: revival
-- Branch: `revive/project-setup`
+- Branch: `main`
 - Portfolio role: API testing dashboard and internal payment-operations tool
 
 ## Current Milestone
@@ -35,15 +35,15 @@ secrets, adding multi-user auth, or expanding every PayMongo endpoint.
       purpose, stack, limitations, and verification instructions.
 - [x] Docker development and production-like workflows are verified and
       documented.
-- [ ] The revived state is merged or pushed through a clear GitHub trail.
+- [x] The revived state is merged or pushed through a clear GitHub trail.
 
 ## Now
 
-- [ ] Push or merge the revived state through a clear GitHub trail.
+- No active work. The revival milestone is complete.
 
 ## Next
 
-- No additional work before the revival milestone is complete.
+- Choose and inspect the next queued revival before activating it.
 
 ## Later
 
@@ -90,3 +90,5 @@ secrets, adding multi-user auth, or expanding every PayMongo endpoint.
 - [x] Verified on 2026-06-20: `docker compose config --quiet` and
       `docker compose -f compose.prod.yaml config --quiet` pass; both stacks
       build successfully and serve `http://localhost:3000`.
+- [x] Merged GitHub PR #1 on 2026-06-20:
+      `https://github.com/reannu123/paymongo-api-dashboard/pull/1`.
