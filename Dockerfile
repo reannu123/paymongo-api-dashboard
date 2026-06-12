@@ -1,18 +1,46 @@
-# Start from the official Node.js LTS base image
-FROM node:lts
+FROM node:20-bookworm-slim AS base
 
-# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json before other files
-# Utilise Docker cache to save re-installing dependencies if unchanged
+ENV NEXT_TELEMETRY_DISABLED=1
+
+FROM base AS dependencies
+
 COPY package*.json ./
+RUN npm ci
 
-# Install dependencies
-RUN npm i
+FROM dependencies AS development
 
-# Copy all files
+ENV NODE_ENV=development
+
 COPY . .
 
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]
+
+FROM dependencies AS builder
+
+ENV NODE_ENV=production
+
+COPY . .
 RUN npm run build
-CMD [ "npm", "start" ]
+
+FROM base AS production
+
+ENV NODE_ENV=production
+ENV HOSTNAME=0.0.0.0
+ENV PORT=3000
+
+RUN groupadd --system --gid 1001 nodejs \
+  && useradd --uid 1001 --gid nodejs --no-create-home \
+    --shell /usr/sbin/nologin nextjs
+
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+
+CMD ["node", "server.js"]

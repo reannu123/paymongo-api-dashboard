@@ -4,7 +4,6 @@ import {
   disableWebhook,
   getWebhooks,
   WebhookData,
-  sendPaymongo,
   CheckoutSession,
 } from "@/lib/paymongo";
 
@@ -48,8 +47,21 @@ const usePaymongo = create<PaymongoStore>((set, get) => ({
   sendCreateCheckoutSession: async () => {
     const { secretKey } = get();
     if (!secretKey) return;
-    const response = await sendPaymongo(secretKey);
-    set({ checkoutSession: response });
+    const response = await fetch("/api/checkout-sessions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ secretKey }),
+    });
+
+    if (!response.ok) {
+      console.error(await response.json());
+      return;
+    }
+
+    const checkoutSession = (await response.json()) as CheckoutSession;
+    set({ checkoutSession });
   },
 
   setSecretKey: (secretKey: string) => set({ secretKey }),
