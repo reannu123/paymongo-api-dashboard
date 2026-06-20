@@ -1,15 +1,34 @@
 # PayMongo API Dashboard TODO
 
-Last updated: 2026-06-20
+Last updated: 2026-06-20 (flagship elevation complete)
 
 ## Project
 
-- Name: PayMongo API Dashboard
+- Name: PayMongo Operations Dashboard
 - Path: `/home/reannu123/Projects/portfolio/paymongo-api-dashboard`
-- Status: complete
-- Stage: revival
+- Status: complete (flagship)
+- Stage: remaster
 - Branch: `main`
-- Portfolio role: API testing dashboard and internal payment-operations tool
+- Portfolio role: Flagship payment-operations dashboard — runs with no PayMongo
+  account via demo mode
+
+## Flagship Elevation — done 2026-06-20
+
+- [x] Demo mode (default on): `lib/demo.ts` mock payments/webhooks/checkout +
+      pure `summarize()`; API routes serve demo data when no/empty/"demo" key
+      and proxy the live PayMongo API otherwise (key stays server-side).
+- [x] Operations UI: summary KPIs (gross/net volume, success rate, count) +
+      sortable payments table with method/status badges; Payments/Webhooks/
+      Checkout tabs; demo banner + toggle.
+- [x] Vitest unit tests for `summarize()` + `isDemo()`; `npm test` script.
+- [x] README rewrite (ops-dashboard framing, demo mode, architecture, badges),
+      `docs/CASE_STUDY.md`, MIT LICENSE, dashboard + webhooks screenshots.
+- [x] `next build` clean; pushed public to `main` (61daf7a).
+- [ ] **User action:** activate CI — `.github/workflows/ci.yml` exists locally
+      but wasn't pushed (token lacks `workflow` scope). Run:
+      `gh auth refresh -s workflow && git add .github && git commit -m "Add CI" && git push`.
+- [ ] Optional next: webhook event-log viewer, refund/void in live mode,
+      date-range filters, CSV export.
 
 ## Current Milestone
 
