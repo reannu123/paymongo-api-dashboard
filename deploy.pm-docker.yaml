@@ -1,0 +1,20 @@
+app: paymongo-api-dashboard
+public_url: https://paymongo.reannu.dev
+health_path: /api/health
+image: ghcr.io/reannu123/paymongo-api-dashboard
+image_tag: main
+host: pm-docker
+host_ip: 192.168.0.125
+host_port: 3023
+deploy_dir: /docker/compose/paymongo-api-dashboard
+compose_file: compose.deploy.yaml
+service: app
+proxy:
+  host: raspberrypi
+  manager: npm
+  base_url: http://192.168.0.111:81
+  domain: paymongo.reannu.dev
+  forward_scheme: http
+  forward_host: 192.168.0.125
+  forward_port: 3023
+  allow_websocket_upgrade: true
