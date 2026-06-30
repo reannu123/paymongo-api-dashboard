@@ -1,6 +1,6 @@
 # PayMongo API Dashboard TODO
 
-Last updated: 2026-06-20 (flagship elevation complete)
+Last updated: 2026-07-01 (public demo deployed)
 
 ## Project
 
@@ -24,9 +24,12 @@ Last updated: 2026-06-20 (flagship elevation complete)
 - [x] README rewrite (ops-dashboard framing, demo mode, architecture, badges),
       `docs/CASE_STUDY.md`, MIT LICENSE, dashboard + webhooks screenshots.
 - [x] `next build` clean; pushed public to `main` (61daf7a).
-- [ ] **User action:** activate CI — `.github/workflows/ci.yml` exists locally
-      but wasn't pushed (token lacks `workflow` scope). Run:
-      `gh auth refresh -s workflow && git add .github && git commit -m "Add CI" && git push`.
+- [x] CI activated 2026-06-24 — `.github/workflows/ci.yml` pushed in
+      `bc4f625`; first GitHub Actions CI run passed.
+- [x] Public demo deployed 2026-07-01 at `https://paymongo.reannu.dev`:
+      GHCR image `ghcr.io/reannu123/paymongo-api-dashboard:main`, pm-docker
+      port `3023`, NPM proxy host `id=17`, local/public `/api/health` 200,
+      public homepage 200, and browser smoke rendered the demo dashboard.
 - [ ] Optional next: webhook event-log viewer, refund/void in live mode,
       date-range filters, CSV export.
 
@@ -111,3 +114,6 @@ secrets, adding multi-user auth, or expanding every PayMongo endpoint.
       build successfully and serve `http://localhost:3000`.
 - [x] Merged GitHub PR #1 on 2026-06-20:
       `https://github.com/reannu123/paymongo-api-dashboard/pull/1`.
+- [x] Added GHCR publishing and pm-docker deployment config on 2026-07-01:
+      commit `8854bf7`; CI run `28464304045` passed and Docker Image CD run
+      `28464304027` published the `main` image.
